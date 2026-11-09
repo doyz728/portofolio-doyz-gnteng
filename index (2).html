@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asep | FRONT-END</title>
+    
+    <!-- Import Premium Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- 
+      This <style> block contains all the CSS.
+      No frameworks are used, as requested.
+    -->
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #f5f5f5;
+            --text-muted: #a3a3a3;
+            --border-color: #262626;
+            --accent-color: #ffffff; /* Using white as a clean accent */
+        }
+
+        /* 1. Global Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            /* Ensures smooth scrolling for anchor links */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            cursor: none; /* Hide the default cursor */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* 2. Custom Cursor */
+        .cursor {
+            pointer-events: none;
+            position: fixed;
+            display: block;
+            border-radius: 50%;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease, transform 0.1s ease-out;
+            will-change: transform, width, height, opacity;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-color);
+            transition: transform 0.15s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s cubic-bezier(0.2, 1, 0.3, 1), /* Made this faster */
+                        width 0.3s cubic-bezier(0.2, 1, 0.3, 1),
+                        height 0.3s cubic-bezier(0.2, 1, 0.3, 1),
+                        background-color 0.3s ease;
+        }
+
+        /* Custom cursor hover states */
+        body.cursor-hovered .cursor-dot {
+            transform: translate(-50%, -50%) scale(0.5);
+            opacity: 0.5;
+        }
+        
+        body.cursor-hovered .cursor-outline {
+            transform: translate(-50%, -50%) scale(1.5);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* 3. Layout */
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        section, header {
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+
+        /* 4. Navigation */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 24px 0;
+            z-index: 1000;
+            background-color: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 32px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-color);
+        }
+
+        /* 5. Hero Section */
+        #hero {
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 10vw, 8rem); /* Responsive typography */
+            font-weight: 900;
+            line-height: 1.05;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        
+        /* 6. Parallax Background Text */
+        .parallax-bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(10rem, 25vw, 20rem);
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.03);
+            white-space: nowrap;
+            z-index: 0;
+            user-select: none;
+            will-change: transform;
+        }
+
+        /* 7. About Section */
+        #about .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        #about h2 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        #about p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+        
+        .skills-list ul {
+            list-style: none;
+        }
+        
+        .skills-list li {
+            font-size: 1.5rem;
+            font-weight: 500;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: color 0.3s ease;
+        }
+        
+        .skills-list li:hover {
+            color: var(--accent-color);
+        }
+
+        /* 8. Work Section */
+        #work {
+            background-color: #080808;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 4rem;
+        }
+
+        .project-item {
+            display: block;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            transition: background-color 0.4s ease;
+        }
+        
+        .project-item:first-child {
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .project-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .project-item:hover .project-inner {
+            transform: translateX(20px);
+        }
+
+        .project-item h3 {
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .project-item .project-category {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .project-image-container {
+            position: absolute;
+            top: 50%;
+            right: 5%;
+            transform: translate(0, -50%) scale(0.8);
+            opacity: 0;
+            z-index: 3;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            width: 400px;
+            height: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-item:hover .project-image-container {
+            transform: translate(0, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .project-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* 9. Contact Section */
+        #contact {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 160px 0;
+        }
+        
+        #contact .container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        #contact h2 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        
+        #contact .contact-link {
+            font-size: clamp(2.5rem, 10vw, 7rem);
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 2rem auto 0;
+            text-align: left;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 2; /* Ensure input is above label background */
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Floating label */
+        .contact-form label {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 1; /* Behind input */
+        }
+
+        .contact-form input:focus + label,
+        .contact-form textarea:focus + label,
+        .contact-form input:not(:placeholder-shown) + label,
+        .contact-form textarea:not(:placeholder-shown) + label {
+            top: -0.75rem;
+            left: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--accent-color);
+            background-color: var(--bg-color); /* Match page background */
+            padding: 0 0.25rem;
+            z-index: 3; /* Above input border */
+        }
+        
+        /* Hide placeholder when not focused */
+        .contact-form input:not(:focus)::placeholder,
+        .contact-form textarea:not(:focus)::placeholder {
+            color: transparent;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 50px; /* Pill shape */
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: none; /* Use custom cursor */
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* 10. Footer */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+        }
+        
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--text-color);
+        }
+        
+        /* 11. Scroll-Triggered Animations */
+        /* Elements are hidden by default and revealed by JS
+          using IntersectionObserver.
+        */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.2, 1, 0.3, 1),
+                        transform 1s cubic-bezier(0.2, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered animation delays */
+        .hero-content h1 .reveal-on-scroll:nth-child(1) { transition-delay: 0.1s; }
+        .hero-content h1 .reveal-on-scroll:nth-child(2) { transition-delay: 0.2s; }
+        .hero-content h1 .reveal-on-scroll:nth-child(3) { transition-delay: 0.3s; }
+        
+        /* 12. Responsive Design */
+        @media (max-width: 900px) {
+            .project-image-container {
+                display: none; /* Hide floating image on smaller screens */
+            }
+            
+            .project-item h3 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Simple mobile nav */
+            }
+            
+            #about .container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            #about h2 {
+                font-size: 3rem;
+            }
+            
+            .skills-list li {
+                font-size: 1.25rem;
+            }
+            
+            .project-item h3 {
+                font-size: 2.5rem;
+            }
+            
+            #contact h2 {
+                font-size: 1.5rem;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* 13. Click Photo Effect */
+        .click-photo {
+            position: fixed;
+            z-index: 9998; /* Below cursor, above content */
+            width: 150px;
+            height: 200px;
+            border-radius: 8px;
+            object-fit: cover;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(0.5);
+            opacity: 0;
+            animation: showAndFade 1.2s ease-out forwards;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        @keyframes showAndFade {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                transform: translate(-50%, -50%) scale(1) rotate(-5deg);
+                opacity: 1;
+            }
+            80% {
+                transform: translate(-50%, -50%) scale(1) rotate(-5deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo magnetic" data-magnetic-strength="50">G-DEV</a>
+            <div class="nav-links">
+                <a href="#about" class="magnetic" data-magnetic-strength="30" data-magnetic-margin="10">About</a>
+                <a href="#work" class="magnetic" data-magnetic-strength="30" data-magnetic-margin="10">Work</a>
+                <a href="#contact" class="magnetic" data-magnetic-strength="30" data-magnetic-margin="10">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero">
+        <!-- This is where the 3D scene will be rendered -->
+        <div id="three-canvas"></div>
+        
+        <!-- Parallax background text for depth -->
+        <div class="parallax-bg-text" data-parallax-speed="0.3">
+            FRONT-END
+        </div>
+        
+        <div class="container hero-content">
+            <h1>
+                <span class="reveal-on-scroll">gustiawandev</span><br>
+                <span class="reveal-on-scroll">front-end</span><br>
+                <span class="reveal-on-scroll">developer</span>
+            </h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <div class="about-text">
+                    <h2 class="reveal-on-scroll">Who I Am</h2>
+                    <p class="reveal-on-scroll" style="transition-delay: 0.1s;">
+                        I'm Asep Gustiawan, a web developer and 12th-grade SMK student, founder of G-DEV (GustiawanDev).
+                    </p>
+                    <p class="reveal-on-scroll" style="transition-delay: 0.2s;">
+                        "I specialize in front-end development with JavaScript, focusing on building clean and functional applications with React. I enjoy turning ideas into smooth, responsive interfaces and crafting user experiences that feel natural from the first click."
+                    </p>
+                </div>
+                <div class="skills-list">
+                    <ul>
+                        <li class="reveal-on-scroll" style="transition-delay: 0.3s;">Laravel & PHP</li>
+                        <li class="reveal-on-scroll" style="transition-delay: 0.4s;">JavaScript</li>
+                        <li class="reveal-on-scroll" style="transition-delay: 0.5s;">HTML & CSS</li>
+                        <li class="reveal-on-scroll" style="transition-delay: 0.6s;">React</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work Section -->
+        <section id="work">
+            <div class="container">
+                <div class="section-title reveal-on-scroll">Selected Work</div>
+                
+                <!-- Project 1 -->
+                <a href="#" class="project-item reveal-on-scroll" data-cursor-hover>
+                    <div class="project-inner">
+                        <div>
+                            <h3>restaurant</h3>
+                            <div class="project-category">I work on restaurant websites that I work on using Laravel, JavaScript, and Bootstrap.</div>
+                        </div>
+                        <div class="project-year">2025</div>
+                    </div>
+                    <div class="project-image-container">
+                        <img src="15+ Beautiful Restaurant & Food Websites for Inspiration — Speckyboy.jpeg" alt="restaurant" loading="lazy">
+                    </div>
+                </a>
+                
+                <!-- Project 2 -->
+                <a href="#" class="project-item reveal-on-scroll" data-cursor-hover>
+                    <div class="project-inner">
+                        <div>
+                            <h3>PORTFOLIO</h3>
+                            <div class="project-category">I am working on my personal portfolio website using JavaScript, CSS, HTML</div>
+                        </div>
+                        <div class="project-year">2025</div>
+                    </div>
+                     <div class="project-image-container">
+                        <img src="Screenshot 2025-11-22 203143.png" alt="PORTFOLIO" loading="lazy">
+                    </div>
+                </a>
+                
+                <!-- Project 3 -->
+                <a href="#" class="project-item reveal-on-scroll" data-cursor-hover>
+                    <div class="project-inner">
+                        <div>
+                            <h3>Comming soon</h3>
+                            <div class="project-category">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+                        </div>
+                        <div class="project-year">2025</div>
+                    </div>
+                     <div class="project-image-container">
+                        <img src="https://placehold.co/600x420/0f0f0f/fff?text=Coming+soon" alt="coming soon" loading="lazy">
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="parallax-bg-text" data-parallax-speed="0.2">
+                Connect
+            </div>
+            <div class="container">
+                <h2 class="reveal-on-scroll">Get In Touch</h2>
+                
+                <!-- New Contact Form -->
+                <form class="contact-form reveal-on-scroll" style="transition-delay: 0.1s;" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        <label for="name">Your Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        <label for="email">Your Email</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                        <label for="message">Your Message</label>
+                    </div>
+                    <button type="submit" class="submit-btn magnetic" data-magnetic-strength="40">Send Message</button>
+                </form>
+                
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-copyright">
+                © <span id="current-year">2025</span> All Rights Reserved.
+            </div>
+            <div class="footer-links">
+                <a href="#" class="magnetic" data-magnetic-strength="30" data-magnetic-margin="10">LinkedIn</a>
+                <a href="#" class="magnetic" data-magnetic-strength="30" data-magnetic-margin="10">GitHub</a>
+                <a href="#" class="magnetic" data-magnetic-strength="30" data-magnetic-margin="10">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!--
+      Load three.js (3D library) from a CDN
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!--
+      This <script> block contains all the custom JavaScript for interactions.
+    -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. 3D Scene (three.js) ---
+            let scene, camera, renderer, shape;
+            
+            function initThreeJS() {
+                const container = document.getElementById('three-canvas');
+                if (!container) return;
+
+                // Scene
+                scene = new THREE.Scene();
+
+                // Camera
+                camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                camera.position.z = 5;
+
+                // Renderer
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                container.appendChild(renderer.domElement);
+
+                // Shape (a rotating wireframe icosahedron)
+                const geometry = new THREE.IcosahedronGeometry(2, 0);
+                const material = new THREE.MeshBasicMaterial({
+                    color: 0xffffff,
+                    wireframe: true,
+                });
+                shape = new THREE.Mesh(geometry, material);
+                scene.add(shape);
+                
+                // Handle mouse movement
+                document.addEventListener('mousemove', onMouseMove, false);
+                
+                // Start animation
+                animate();
+            }
+            
+            let mouseX = 0, mouseY = 0;
+            let targetX = 0, targetY = 0;
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            function onMouseMove(event) {
+                mouseX = (event.clientX - windowHalfX);
+                mouseY = (event.clientY - windowHalfY);
+            }
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Slowly move 3D shape based on mouse
+                targetX = mouseX * 0.001;
+                targetY = mouseY * 0.001;
+
+                if (shape) {
+                    shape.rotation.y += 0.05 * (targetX - shape.rotation.y);
+                    shape.rotation.x += 0.05 * (targetY - shape.rotation.x);
+                    shape.rotation.z += 0.002;
+                }
+
+                renderer.render(scene, camera);
+            }
+
+            // Handle window resize
+            function onWindowResize() {
+                const container = document.getElementById('three-canvas');
+                if (!container) return;
+                
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
+            window.addEventListener('resize', onWindowResize, false);
+            
+            // --- 2. Custom Cursor Logic ---
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            
+            let cursor = {
+                x: 0,
+                y: 0,
+                dotX: 0,
+                dotY: 0,
+                outlineX: 0,
+                outlineY: 0,
+            };
+
+            // Update cursor position
+            window.addEventListener('mousemove', e => {
+                cursor.x = e.clientX;
+                cursor.y = e.clientY;
+            });
+            
+            // Lag-follow effect
+            function updateCursor() {
+                // Dot follows fast
+                cursor.dotX += (cursor.x - cursor.dotX) * 0.7;
+                cursor.dotY += (cursor.y - cursor.dotY) * 0.7;
+                
+                // Outline follows slow
+                cursor.outlineX += (cursor.x - cursor.outlineX) * 0.4; /* Increased from 0.1 */
+                cursor.outlineY += (cursor.y - cursor.outlineY) * 0.4; /* Increased from 0.1 */
+                
+                cursorDot.style.transform = `translate(-50%, -50%) translate(${cursor.dotX}px, ${cursor.dotY}px)`;
+                cursorOutline.style.transform = `translate(-50%, -50%) translate(${cursor.outlineX}px, ${cursor.outlineY}px)`;
+                
+                requestAnimationFrame(updateCursor);
+            }
+            updateCursor(); // Start the loop
+            
+            // Cursor hover states
+            document.querySelectorAll('a, button, [data-cursor-hover]').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    document.body.classList.add('cursor-hovered');
+                });
+                el.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('cursor-hovered');
+                });
+            });
+
+            // --- 3. Magnetic Effect ---
+            document.querySelectorAll('.magnetic').forEach(el => {
+                const strength = parseFloat(el.dataset.magneticStrength) || 30;
+                const margin = parseFloat(el.dataset.magneticMargin) || 0;
+
+                el.addEventListener('mousemove', e => {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - (rect.left + rect.width / 2);
+                    const y = e.clientY - (rect.top + rect.height / 2);
+                    
+                    el.style.transition = 'transform 0.1s ease-out';
+                    el.style.transform = `translate(${x / rect.width * strength}px, ${y / rect.height * strength}px)`;
+                });
+
+                el.addEventListener('mouseleave', () => {
+                    el.style.transition = 'transform 0.3s cubic-bezier(0.2, 1, 0.3, 1)';
+                    el.style.transform = 'translate(0, 0)';
+                });
+            });
+            
+            // --- 4. Parallax Backgrounds ---
+            const parallaxElements = document.querySelectorAll('[data-parallax-speed]');
+            
+            window.addEventListener('scroll', () => {
+                const scrollY = window.pageYOffset;
+                
+                parallaxElements.forEach(el => {
+                    const speed = parseFloat(el.dataset.parallaxSpeed) || 0.5;
+                    // Move element in the opposite direction of scroll, slowed down
+                    el.style.transform = `translate(-50%, -50%) translateY(${-(scrollY - el.parentElement.offsetTop) * speed}px)`;
+                });
+            });
+            
+            // --- 5. Scroll-Triggered Animations ---
+            const revealElements = document.querySelectorAll('.reveal-on-scroll');
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Animate only once
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% is visible
+            });
+
+            revealElements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            // --- 6. Footer: Update Current Year ---
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // --- 7. Hero Click Photo Effect ---
+            const heroSection = document.getElementById('hero');
+            const userPhotos = [
+                'UchihasEyes.jpeg',
+                'Gojo wallpaper.jpeg',
+                'use code rayless09-21 on amazon.jpeg',
+                'download (4).jpeg',
+                'download (3).jpeg'
+            ];
+
+            heroSection.addEventListener('click', e => {
+                // Create the image element
+                const photo = document.createElement('img');
+                
+                // Pick a random photo
+                const randomSrc = userPhotos[Math.floor(Math.random() * userPhotos.length)];
+                photo.src = randomSrc;
+                photo.alt = "User Photo";
+                photo.className = 'click-photo';
+                
+                // Position at click coordinates
+                photo.style.left = `${e.clientX}px`;
+                photo.style.top = `${e.clientY}px`;
+                
+                // Add to body
+                document.body.appendChild(photo);
+                
+                // Remove after animation (1200ms = 1.2s)
+                setTimeout(() => {
+                    photo.remove();
+                }, 1200);
+            });
+
+            // --- Initialize 3D Scene ---
+            initThreeJS();
+        });
+
+        // --- 8. Handle Form Submit ---
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Stop page from reloading
+            const form = event.target;
+            const btn = form.querySelector('.submit-btn');
+            
+            // Show success message
+            btn.textContent = 'Sent!';
+            btn.style.backgroundColor = '#4CAF50'; // Green color for success
+            btn.style.color = '#fff';
+
+            // Reset after 3 seconds
+            setTimeout(() => {
+                btn.textContent = 'Send Message';
+                btn.style.backgroundColor = 'var(--accent-color)';
+                btn.style.color = 'var(--bg-color)';
+                form.reset(); // Clear the form fields
+                
+                // Reset floating labels by removing focus
+                form.querySelectorAll('input, textarea').forEach(el => el.blur());
+                
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
