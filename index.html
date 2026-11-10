@@ -7,6 +7,66 @@
     <title>doyz-leonerd:~$</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+   /* Styling Galeri Sertifikat */
+.cert-container {
+    padding: 15px;
+    font-family: monospace;
+    color: #0F0;
+}
+
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.cert-card {
+    background: #050b05;
+    border: 1px solid #0F0;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+    transition: 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0,255,0,0.2);
+}
+
+.cert-card:hover {
+    background: #0F0;
+    color: #000;
+    box-shadow: 0 0 15px rgba(0,255,0,0.6);
+}
+
+.cert-title {
+    font-size: 12px;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+/* Kelas buat menyembunyikan item tambahan */
+.hidden-certs {
+    display: none;
+}
+
+/* Tombol Terminal */
+.terminal-btn {
+    background: transparent;
+    border: 1px solid #0F0;
+    color: #0F0;
+    padding: 8px 15px;
+    font-family: monospace;
+    cursor: pointer;
+    margin-top: 15px;
+    border-radius: 3px;
+    transition: 0.2s;
+}
+
+.terminal-btn:hover {
+    background: #0F0;
+    color: #000;
+}
+    
     <style>
         * {
             margin: 0;
@@ -897,6 +957,43 @@ document.addEventListener("DOMContentLoaded", function() {
 - Network Technology
 - Electronics & Programming
 
+                            <div class="cert-container">
+    <div style="margin-bottom: 5px;">[SYS_DIR]: ~/certificates/ (Showing 2 of 5 items)</div>
+    
+    <div class="cert-grid" id="certGrid">
+        <!-- 2 Sertifikat awal yang langsung kelihatan -->
+        <div class="cert-card" onclick="window.open('link_sertifikat_1.jpg', '_blank')">
+            <div style="font-size: 24px;">📄</div>
+            <div class="cert-title">[CERT_01].png</div>
+        </div>
+        
+        <div class="cert-card" onclick="window.open('link_sertifikat_2.jpg', '_blank')">
+            <div style="font-size: 24px;">📄</div>
+            <div class="cert-title">[CERT_02].png</div>
+        </div>
+        
+        <!-- 3 Sertifikat tambahan yang tadinya tersembunyi -->
+        <div class="cert-card hidden-certs">
+            <div style="font-size: 24px;" onclick="window.open('link_sertifikat_3.jpg', '_blank')">📄</div>
+            <div class="cert-title" onclick="window.open('link_sertifikat_3.jpg', '_blank')">[CERT_03].png</div>
+        </div>
+        
+        <div class="cert-card hidden-certs">
+            <div style="font-size: 24px;" onclick="window.open('link_sertifikat_4.jpg', '_blank')">📄</div>
+            <div class="cert-title" onclick="window.open('link_sertifikat_4.jpg', '_blank')">[CERT_04].png</div>
+        </div>
+        
+        <div class="cert-card hidden-certs">
+            <div style="font-size: 24px;" onclick="window.open('link_sertifikat_5.jpg', '_blank')">📄</div>
+            <div class="cert-title" onclick="window.open('link_sertifikat_5.jpg', '_blank')">[CERT_05].png</div>
+        </div>
+    </div>
+
+    <!-- Tombol untuk memunculkan sisanya -->
+    <button class="terminal-btn" id="toggleCertBtn" onclick="toggleCertificates()">> execute: ls -a (View All)</button>
+                        </div>
+                        
+
 Building digital experiences that merge functionality with aesthetic beauty."></div>
                     </div>
                 </div>
@@ -1349,7 +1446,21 @@ function toggleMusic() {
             [SYS_NET]: Active Connections // 1,837 Online
         </div>
         
-
+function toggleCertificates() {
+    const hiddenCerts = document.querySelectorAll('.hidden-certs');
+    const btn = document.getElementById('toggleCertBtn');
+    
+    hiddenCerts.forEach(card => {
+        if (card.style.display === 'block') {
+            card.style.display = 'none';
+            btn.innerHTML = '> execute: ls -a (View All)';
+        } else {
+            card.style.display = 'block';
+            btn.innerHTML = '> execute: collapse (Show Less)';
+        }
+    });
+}
+    
         
 </body>
 </html>
