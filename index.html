@@ -1363,26 +1363,32 @@ function toggleMusic() {
             [SYS_NET]: Active Connections // 1,837 Online
         </div>
         <script>
-// Menangkap form yang sudah ada di template Anda secara otomatis
-const existingForm = document.querySelector('form'); // atau gunakan id form Anda jika ada
+document.addEventListener("DOMContentLoaded", function() {
+    // Cari tombol kirim berdasarkan teksnya "SEND MESSAGE" atau tipe submit
+    const submitBtn = document.querySelector('button[type="submit"], input[type="submit"]');
+    const form = document.querySelector('form');
+    
+    if (!submitBtn || !form) return;
 
-if (existingForm) {
-    // Berikan id 'contactForm' secara otomatis lewat JavaScript
-    existingForm.id = 'contactForm';
+    // Hentikan fungsi bawaan template dengan menangkap tombolnya langsung
+    submitBtn.addEventListener("click", function(e) {
+        // Cek apakah kolom input kosong atau tidak (validasi sederhana)
+        const inputs = form.querySelectorAll("input, textarea");
+        const name = inputs[0] ? inputs[0].value.trim() : "";
+        const email = inputs[1] ? inputs[1].value.trim() : "";
+        const message = inputs[2] ? inputs[2].value.trim() : "";
 
-    existingForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Mencegah munculnya pop-up demo bawaan template
+        if(!name || !email || !message) {
+            return; // Biar biarkan form validasi bawaan HTML jalan kalau kosong
+        }
 
-        // Ambil data berdasarkan urutan input di form Anda
-        const inputs = existingForm.querySelectorAll('input, textarea');
-        const name = inputs[0] ? inputs[0].value : '';
-        const email = inputs[1] ? inputs[1].value : '';
-        const message = inputs[2] ? inputs[2].value : '';
+        e.preventDefault(); // Matikan paksa aksi demo
+        e.stopPropagation();
+
         const date = new Date().toLocaleString();
+        const SHEET_API_URL = 'https://sheetdb.io/api/v1/oooa13sku9sv2'; // Pastikan link API lu bener di sini
 
-        const SHEET_API_URL = 'https://sheetdb.io/api/v1/oooa13sku9sv2'; // Ganti pakai URL API SheetDB Anda
-
-        // Kirim ke Google Sheets
+        // Kirim data langsung ke SheetDB
         fetch(SHEET_API_URL, {
             method: 'POST',
             headers: {
@@ -1395,19 +1401,16 @@ if (existingForm) {
         })
         .then(response => response.json())
         .then(data => {
-            alert('Pesan berhasil terkirim dan masuk ke web!');
-            existingForm.reset();
-            // Jika Anda ingin pesan langsung tampil di bawah, pastikan ada div dengan id="messageList"
-            if(typeof loadMessages === 'function') loadMessages();
+            alert('Pesan berhasil terkirim ke Google Sheets!');
+            form.reset();
         })
         .catch(error => {
             console.error('Error:', error);
             alert('Gagal mengirim pesan.');
         });
-    });
-}
+    }, true);
+});
 </script>
-
 
         
 </body>
