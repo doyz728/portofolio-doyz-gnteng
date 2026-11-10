@@ -720,13 +720,15 @@
     </style>
 </head>
 <body class="crt"> 
-    <!-- Tombol Musik Melayang di Pojok Kanan Atas -->
-<div style="position: fixed; top: 15px; right: 15px; z-index: 9999; font-family: monospace;">
-    <button id="playBtn" onclick="toggleMusic()" style="background: #000; color: #0F0; border: 1px solid #0F0; padding: 6px 12px; cursor: pointer; font-family: monospace; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,0,0.5);">[PLAY MUSIC]</button>
-    <audio id="bgAudio" loop>
+<!-- Panel Musik Estetik Ala Terminal -->
+<div id="musicPanel" style="position: fixed; top: 10px; right: 10px; z-index: 99999; background: #000; border: 1px solid #0F0; padding: 5px 10px; font-family: monospace; box-shadow: 0 0 10px rgba(0,255,0,0.3);">
+    <span style="color: #0F0; font-size: 12px; margin-right: 5px;">[AUDIO]:</span>
+    <button id="playBtn" onclick="toggleMusic()" style="background: #000; color: #0F0; border: 1px solid #0F0; padding: 4px 8px; cursor: pointer; font-family: monospace; font-size: 12px; font-weight: bold;">[PLAY]</button>
+    <audio id="bgAudio" preload="auto">
         <source src="bg-music.mp3" type="audio/mpeg">
     </audio>
 </div>
+
 
     <canvas id="matrixCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.40;"></canvas>
 
@@ -1291,20 +1293,23 @@ function drawMatrix() {
 }
 
 setInterval(drawMatrix, 35);
-    <script>
     const audio = document.getElementById('bgAudio');
-    const playBtn = document.getElementById('playBtn');
+const playBtn = document.getElementById('playBtn');
 
-    function toggleMusic() {
-        if (audio.paused) {
-            audio.play();
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play().then(() => {
             playBtn.innerText = '[PAUSE]';
-        } else {
-            audio.pause();
-            playBtn.innerText = '[PLAY]';
-        }
+        }).catch(error => {
+            console.log("Gagal memutar audio:", error);
+            alert("Gagal memutar lagu, pastikan file mp3 terbaca!");
+        });
+    } else {
+        audio.pause();
+        playBtn.innerText = '[PLAY]';
     }
-</script>
+}
+
         
 </script>
 </body>
