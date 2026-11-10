@@ -1316,39 +1316,7 @@ function toggleMusic() {
             [SYS_NET]: Active Connections // 1,837 Online
         </div>
         
-        const bootLogs = [
-    "[SYS_BOOT]: Initializing Doyz Leonerd Kernel...",
-    "[MEM_CHECK]: Verifying 64KB memory sectors... [OK]",
-    "[SEC_AUTH]: Establishing secure connection to GitHub Node...",
-    "[MATRIX_ENV]: Loading cyberpunk aesthetics & audio driver...",
-    "[ACCESS_GRANTED]: Welcome, User. Entering system..."
-];
 
-let bootIndex = 0;
-const bootElement = document.getElementById("bootText");
-const bootScreen = document.getElementById("bootScreen");
-
-function runBootSequence() {
-    if (bootIndex < bootLogs.length) {
-        bootElement.innerHTML += bootLogs[bootIndex] + "<br>";
-        bootIndex++;
-        setTimeout(runBootSequence, 400); // Kecepatan kemunculan baris teks
-    } else {
-        // Hilangkan layar loading setelah selesai
-        setTimeout(() => {
-            bootScreen.style.opacity = "0";
-            bootScreen.style.transition = "opacity 0.5s ease";
-            setTimeout(() => {
-                bootScreen.style.display = "none";
-            }, 500);
-        }, 800);
-    }
-}
-
-// Jalankan animasi saat halaman dimuat
-document.addEventListener("DOMContentLoaded", () => {
-    runBootSequence();
-});
         
 </body>
 </html>
