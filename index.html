@@ -750,7 +750,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     const date = new Date().toLocaleString();
 
     // Ganti tulisan di bawah dengan URL API SheetDB Anda yang asli!
-    const SHEET_API_URL = 'https://sheetdb.io/api/v1/oooa13sku9sv2';
+    const SHEET_API_URL = 'https://sheetdb.io/api/v1/qoorgf4hdlr4i';
 
     fetch(SHEET_API_URL, {
         method: 'POST',
@@ -759,7 +759,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            data: { name: name, email: email, message: message, date: date }
+            data: { name: name, email: email, message: message,}
         })
     })
     .then(response => response.json())
@@ -1369,22 +1369,19 @@ document.addEventListener("DOMContentLoaded", function() {
     const sendBtn = document.getElementById("realSendBtn");
     if (!sendBtn) return;
 
-    sendBtn.addEventListener("click", function() {
-        const nameInput = document.getElementById("name");
-        const emailInput = document.getElementById("email");
-        const messageInput = document.getElementById("message");
+        sendBtn.addEventListener("click", function() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
 
-        const name = nameInput ? nameInput.value.trim() : "";
-        const email = emailInput ? emailInput.value.trim() : "";
-        const message = messageInput ? messageInput.value.trim() : "";
-
-        if (!name || !email || !message) {
+        if (name === "" || email === "" || message === "") {
             alert("Isi dulu semua kolomnya!");
             return;
         }
 
+
         const date = new Date().toLocaleString();
-        const SHEET_API_URL = 'https://sheetdb.io/api/v1/oooa13sku9sv2'; // Ganti pakai link SheetDB lu
+        const SHEET_API_URL = 'https://sheetdb.io/api/v1/qoorgf4hdlr4i'; // Ganti pakai link SheetDB lu
 
         fetch(SHEET_API_URL, {
             method: 'POST',
@@ -1393,7 +1390,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                data: { name: name, email: email, message: message, date: date }
+                data: { name: name, email: email, message: message,}
             })
         })
         .then(response => response.json())
