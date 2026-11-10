@@ -958,41 +958,7 @@ document.addEventListener("DOMContentLoaded", function() {
 - Network Technology
 - Electronics & Programming
 
-                            <div class="cert-container">
-    <div style="margin-bottom: 5px;">[SYS_DIR]: ~/certificates/ (Showing 2 of 5 items)</div>
-    
-    <div class="cert-grid" id="certGrid">
-        <!-- 2 Sertifikat awal yang langsung kelihatan -->
-        <div class="cert-card" onclick="window.open('link_sertifikat_1.jpg', '_blank')">
-            <div style="font-size: 24px;">📄</div>
-            <div class="cert-title">[CERT_01].png</div>
-        </div>
-        
-        <div class="cert-card" onclick="window.open('link_sertifikat_2.jpg', '_blank')">
-            <div style="font-size: 24px;">📄</div>
-            <div class="cert-title">[CERT_02].png</div>
-        </div>
-        
-        <!-- 3 Sertifikat tambahan yang tadinya tersembunyi -->
-        <div class="cert-card hidden-certs">
-            <div style="font-size: 24px;" onclick="window.open('link_sertifikat_3.jpg', '_blank')">📄</div>
-            <div class="cert-title" onclick="window.open('link_sertifikat_3.jpg', '_blank')">[CERT_03].png</div>
-        </div>
-        
-        <div class="cert-card hidden-certs">
-            <div style="font-size: 24px;" onclick="window.open('link_sertifikat_4.jpg', '_blank')">📄</div>
-            <div class="cert-title" onclick="window.open('link_sertifikat_4.jpg', '_blank')">[CERT_04].png</div>
-        </div>
-        
-        <div class="cert-card hidden-certs">
-            <div style="font-size: 24px;" onclick="window.open('link_sertifikat_5.jpg', '_blank')">📄</div>
-            <div class="cert-title" onclick="window.open('link_sertifikat_5.jpg', '_blank')">[CERT_05].png</div>
-        </div>
-    </div>
-
-    <!-- Tombol untuk memunculkan sisanya -->
-    <button class="terminal-btn" id="toggleCertBtn" onclick="toggleCertificates()">> execute: ls -a (View All)</button>
-                        </div>
+            
                         
 
 Building digital experiences that merge functionality with aesthetic beauty."></div>
@@ -1203,7 +1169,44 @@ Building digital experiences that merge functionality with aesthetic beauty."></
         <i class='bx bx-envelope'></i> Email
     </a>
 </div> 
-            
+
+<div class="cert-container">
+    <div style="margin-bottom: 5px;">[SYS_DIR]: ~/certificates/ (Showing 2 of 5 items)</div>
+    
+    <div class="cert-grid" id="certGrid">
+        <!-- 2 Sertifikat awal -->
+        <div class="cert-card" onclick="window.open('link_sertifikat_1.jpg', '_blank')">
+            <div style="font-size: 24px;">📄</div>
+            <div class="cert-title">[CERT_01].png</div>
+        </div>
+        
+        <div class="cert-card" onclick="window.open('link_sertifikat_2.jpg', '_blank')">
+            <div style="font-size: 24px;">📄</div>
+            <div class="cert-title">[CERT_02].png</div>
+        </div>
+        
+        <!-- 3 Sertifikat tambahan yang tersembunyi -->
+        <div class="cert-card hidden-certs" onclick="window.open('link_sertifikat_3.jpg', '_blank')">
+            <div style="font-size: 24px;">📄</div>
+            <div class="cert-title">[CERT_03].png</div>
+        </div>
+        
+        <div class="cert-card hidden-certs" onclick="window.open('link_sertifikat_4.jpg', '_blank')">
+            <div style="font-size: 24px;">📄</div>
+            <div class="cert-title">[CERT_04].png</div>
+        </div>
+        
+        <div class="cert-card hidden-certs" onclick="window.open('link_sertifikat_5.jpg', '_blank')">
+            <div style="font-size: 24px;">📄</div>
+            <div class="cert-title">[CERT_05].png</div>
+        </div>
+    </div>
+
+    <!-- Tombol ls -a -->
+    <button class="terminal-btn" id="toggleCertBtn" onclick="toggleCertificates()">> execute: ls -a (View All)</button>
+</div>
+
+                
             <div class="terminal-footer">
                 <p>© 2025 doyz-leonerd | Built with terminal aesthetics</p>
                 <p>Current time: <span id="uptime">00:00:00</span></p>
