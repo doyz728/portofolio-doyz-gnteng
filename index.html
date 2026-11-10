@@ -1366,31 +1366,26 @@ function toggleMusic() {
         </div>
         <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // Cari tombol kirim berdasarkan teksnya "SEND MESSAGE" atau tipe submit
-    const submitBtn = document.querySelector('button[type="submit"], input[type="submit"]');
-    const form = document.querySelector('form');
-    
-    if (!submitBtn || !form) return;
+    const sendBtn = document.getElementById("realSendBtn");
+    if (!sendBtn) return;
 
-    // Hentikan fungsi bawaan template dengan menangkap tombolnya langsung
-    submitBtn.addEventListener("click", function(e) {
-        // Cek apakah kolom input kosong atau tidak (validasi sederhana)
-        const inputs = form.querySelectorAll("input, textarea");
-        const name = inputs[0] ? inputs[0].value.trim() : "";
-        const email = inputs[1] ? inputs[1].value.trim() : "";
-        const message = inputs[2] ? inputs[2].value.trim() : "";
+    sendBtn.addEventListener("click", function() {
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const messageInput = document.getElementById("message");
 
-        if(!name || !email || !message) {
-            return; // Biar biarkan form validasi bawaan HTML jalan kalau kosong
+        const name = nameInput ? nameInput.value.trim() : "";
+        const email = emailInput ? emailInput.value.trim() : "";
+        const message = messageInput ? messageInput.value.trim() : "";
+
+        if (!name || !email || !message) {
+            alert("Isi dulu semua kolomnya!");
+            return;
         }
 
-        e.preventDefault(); // Matikan paksa aksi demo
-        e.stopPropagation();
-
         const date = new Date().toLocaleString();
-        const SHEET_API_URL = 'https://sheetdb.io/api/v1/oooa13sku9sv2'; // Pastikan link API lu bener di sini
+        const SHEET_API_URL = 'https://sheetdb.io/api/v1/oooa13sku9sv2'; // Ganti pakai link SheetDB lu
 
-        // Kirim data langsung ke SheetDB
         fetch(SHEET_API_URL, {
             method: 'POST',
             headers: {
@@ -1404,13 +1399,15 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             alert('Pesan berhasil terkirim ke Google Sheets!');
-            form.reset();
+            if(nameInput) nameInput.value = '';
+            if(emailInput) emailInput.value = '';
+            if(messageInput) messageInput.value = '';
         })
         .catch(error => {
             console.error('Error:', error);
             alert('Gagal mengirim pesan.');
         });
-    }, true);
+    });
 });
 </script>
 
