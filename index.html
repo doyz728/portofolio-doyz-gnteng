@@ -1330,18 +1330,20 @@ setInterval(drawMatrix, 35);
     const audio = document.getElementById('bgAudio');
 const playBtn = document.getElementById('playBtn');
 
-function toggleMusic() {
-    if (audio.paused) {
-        audio.play().then(() => {
-            playBtn.innerText = '⏸';
-        }).catch(error => {
-            console.log("Gagal memutar audio:", error);
-        });
-    } else {
-        audio.pause();
-        playBtn.innerText = '▶';
+<script>
+    function toggleMusic() {
+        const audio = document.getElementById('bgAudio');
+        const btn = document.getElementById('playBtn');
+        if (audio.paused) {
+            audio.play();
+            btn.innerHTML = '❚❚';
+        } else {
+            audio.pause();
+            btn.innerHTML = '▶';
+        }
     }
-}
+</script>
+
 
     
                 <!-- Status Update & Visitor Counter Ala Terminal -->
