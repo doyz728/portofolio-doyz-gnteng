@@ -719,7 +719,9 @@
         }
     </style>
 </head>
-<body class="crt">
+<body class="crt"> 
+    <canvas id="matrixCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.25;"></canvas>
+    
     <div class="welcome-screen" id="welcomeScreen">
         <div class="welcome-ascii" id="welcomeAscii" translate="no">
  _       _______ _     ____ ___  __  __ _____   _____ ___  
@@ -1241,5 +1243,45 @@ Building digital experiences that merge functionality with aesthetic beauty."></
             }, 500);
         });
     </script>
+<script>
+const canvas = document.getElementById('matrixCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const characters = '0101010101010101DOYZLEONERDABCDEFGHIKLMNOPQRSTUVWXYZ$#@%&*';
+const fontSize = 14;
+let columns = Math.floor(canvas.width / fontSize);
+
+let drops = [];
+for (let i = 0; i < columns; i++) {
+    drops[i] = 1;
+}
+
+function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#0F0';
+    ctx.font = fontSize + 'px monospace';
+
+    for (let i = 0; i < drops.length; i++) {
+        const text = characters.charAt(Math.floor(Math.random() * characters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+
+setInterval(drawMatrix, 35);
+</script>
 </body>
 </html>
