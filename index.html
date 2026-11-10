@@ -728,6 +728,15 @@
     </audio>
 </div>
 
+    <form id="contactForm">
+    <input type="text" id="name" placeholder="Name...">
+    <input type="email" id="email" placeholder="Email...">
+    <textarea id="message" placeholder="Message..."></textarea>
+    <button type="submit">SEND MESSAGE</button>
+</form>
+
+<!-- Tempat nampung pesan masuk -->
+<div id="messageList"></div>
     
 
 
@@ -1316,6 +1325,80 @@ function toggleMusic() {
             [SYS_NET]: Active Connections // 1,837 Online
         </div>
         
+// Ganti dengan URL API dari SheetDB Anda
+const SHEET_API_URL = 'https://sheetdb.io/api/v1/URL_API_SHEETDB_ANDA';
+
+// 1. Fungsi saat Form Disubmit (Kirim Data ke Google Sheets)
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Mencegah halaman agar tidak mereload/refresh
+
+    // Mengambil data dari inputan form
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    
+    // Format tanggal otomatis
+    const date = new Date().toLocaleString();
+
+    // Kirim data ke Google Sheets via SheetDB
+    fetch(SHEET_API_URL, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            data: { 
+                name: name, 
+                email: email, 
+                message: message, 
+                date: date 
+            }
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Pesan berhasil terkirim dan masuk ke web!');
+        document.getElementById('contactForm').reset(); // Mengosongkan form kembali
+        loadMessages(); // Memuat ulang daftar pesan agar langsung tampil
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Gagal mengirim pesan.');
+    });
+});
+
+// 2. Fungsi untuk Menampilkan Pesan ke Website
+function loadMessages() {
+    fetch(SHEET_API_URL)
+        .then(response => response.json())
+        .then(data => {
+            const messageList = document.getElementById('messageList');
+            if (!messageList) return; // Jika elemen belum ada, hentikan fungsi
+            
+            messageList.innerHTML = ''; // Kosongkan kontainer sebelum diisi ulang
+
+            // Membalik urutan data (pesan terbaru di atas) lalu menampilkannya satu per satu
+            data.reverse().forEach(row => {
+                const messageItem = document.createElement('div');
+                // Styling gaya terminal (latar hitam, teks hijau sesuai tema web Anda)
+                messageItem.style.cssText = "border: 1px dashed #00ff00; padding: 12px; margin-bottom: 12px; font-family: monospace; background: rgba(0, 255, 0, 0.03);";
+                
+                messageItem.innerHTML = `
+                    <p style="color: #00ff00; margin: 0 0 5px 0;"><strong>> From:</strong> ${row.name} (${row.email})</p>
+                    <p style="color: #00ff00; margin: 0 0 5px 0;"><strong>> Message:</strong> ${row.message}</p>
+                    <p style="font-size: 0.75em; color: #888; margin: 0;">> Time: ${row.date}</p>
+                `;
+                messageList.appendChild(messageItem);
+            });
+        })
+        .catch(error => {
+            console.error('Gagal memuat pesan:', error);
+        });
+}
+
+// Otomatis jalankan fungsi tampilkan pesan saat halaman pertama kali dibuka
+loadMessages();
 
         
 </body>
