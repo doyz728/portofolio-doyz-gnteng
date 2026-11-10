@@ -748,32 +748,7 @@
  | |  | | | |    |  __/| |_| |  _ < | | |  _|| |_| | |___ | | |_| |
  |_|  |_| |_|    |_|    \___/|_| \_\|_| |_|   \___/|_____|___\___/ 
 
-     <!-- Widget Visitor / Server Stats Ala Terminal -->
-<div class="terminal-box" style="margin: 20px 0; font-family: monospace; color: #00ff00;">
-    <p style="margin-bottom: 4px;">$ ./fetch_stats.sh</p>
-    <p style="opacity: 0.8;">[SYS_INFO] Target Host: doyzleonerd.my.id</p>
-    <p style="opacity: 0.8;">[SYS_INFO] Connection Type: Secure / Cloudflare Proxy</p>
-    <p style="opacity: 0.8;">[ACTIVE_VISITOR] Unique Session: <span id="visitorCount">Loading...</span></p>
-    <p style="opacity: 0.8;">[STATUS] Server Uptime: 99.9% ONLINE</p>
-</div>
-
-<script>
-// Skrip sederhana buat bikin counter pengunjung naik otomatis / persist di localStorage
-document.addEventListener("DOMContentLoaded", function() {
-    let visits = localStorage.getItem('doyz_visits');
-    if (!visits) {
-        visits = 1337; // Angka awal ala hacker biar keren
-    } else {
-        visits = parseInt(visits) + 1;
-    }
-    localStorage.setItem('doyz_visits', visits);
-    
-    const counterEl = document.getElementById('visitorCount');
-    if (counterEl) {
-        counterEl.innerText = visits + " IP Connected";
-    }
-});
-</script>
+     
      
         
         </div>
@@ -837,6 +812,33 @@ Status: Open for opportunities
 
 Type 'help' for available commands
             </div>
+            <!-- Widget Visitor / Server Stats Ala Terminal -->
+<div class="terminal-box" style="margin: 20px 0; font-family: monospace; color: #00ff00;">
+    <p style="margin-bottom: 4px;">$ ./fetch_stats.sh</p>
+    <p style="opacity: 0.8;">[SYS_INFO] Target Host: doyzleonerd.my.id</p>
+    <p style="opacity: 0.8;">[SYS_INFO] Connection Type: Secure / Cloudflare Proxy</p>
+    <p style="opacity: 0.8;">[ACTIVE_VISITOR] Unique Session: <span id="visitorCount">Loading...</span></p>
+    <p style="opacity: 0.8;">[STATUS] Server Uptime: 99.9% ONLINE</p>
+</div>
+
+<script>
+// Skrip sederhana buat bikin counter pengunjung naik otomatis / persist di localStorage
+document.addEventListener("DOMContentLoaded", function() {
+    let visits = localStorage.getItem('doyz_visits');
+    if (!visits) {
+        visits = 1337; // Angka awal ala hacker biar keren
+    } else {
+        visits = parseInt(visits) + 1;
+    }
+    localStorage.setItem('doyz_visits', visits);
+    
+    const counterEl = document.getElementById('visitorCount');
+    if (counterEl) {
+        counterEl.innerText = visits + " IP Connected";
+    }
+});
+</script>
+            
 
             <div class="prompt">
                 <span class="prompt-symbol">$</span>
@@ -1065,7 +1067,7 @@ Building digital experiences that merge functionality with aesthetic beauty."></
                 <form class="contact-form">
                     <div class="form-group">
                         <label class="form-label">Name</label>
-                        <input type="text" id="name" class="form-input" placeholder="Name..." required>
+                        <input type="text" id="name" class="form-input"
 
                     </div>
                     <div class="form-group">
@@ -1073,7 +1075,7 @@ Building digital experiences that merge functionality with aesthetic beauty."></
                       <input type="email" id="email" class="form-input" placeholder="Email..." required>
                     </div>
                     <div class="form-group">
-                        <textarea id="message" class="form-textarea" placeholder="Message..." required></textarea>
+                        <textarea id="message" class="form-textarea" 
                         <textarea class="form-textarea" placeholder="Type your message here..."></textarea>
                     </div>
                     <button type="button" id="realSendBtn" class="form-submit">SEND MESSAGE</button>
@@ -1262,7 +1264,7 @@ Building digital experiences that merge functionality with aesthetic beauty."></
         // Form submission handler
         document.querySelector('.contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Message sent! (This is a demo)');
+            alert('Message sent! (Mantap terkirim)');
         });
 
         // Real time display
