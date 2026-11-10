@@ -728,16 +728,52 @@
     </audio>
 </div>
 
-    <form id="contactForm">
-    <input type="text" id="name" placeholder="Name...">
-    <input type="email" id="email" placeholder="Email...">
-    <textarea id="message" placeholder="Message..."></textarea>
-    <button type="submit">SEND MESSAGE</button>
+    <!-- 1. Form Kontak (Pastikan struktur inputnya seperti ini) -->
+<form id="contactForm">
+    <input type="text" id="name" placeholder="Name..." required>
+    <input type="email" id="email" placeholder="Email..." required>
+    <textarea id="message" placeholder="Message..." required></textarea>
+    <button type="submit" class="send-btn">SEND MESSAGE</button>
 </form>
 
-<!-- Tempat nampung pesan masuk -->
-<div id="messageList"></div>
-    
+<!-- Tempat nampung pesan masuk (opsional, biar pesan langsung tampil di bawah) -->
+<div id="messageList" style="margin-top: 20px;"></div>
+
+<!-- 2. Script JavaScript (Tempel sebelum tag </body>) -->
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Mencegah reload halaman & mematikan demo bawaan!
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    const date = new Date().toLocaleString();
+
+    // Ganti tulisan di bawah dengan URL API SheetDB Anda yang asli!
+    const SHEET_API_URL = 'https://sheetdb.io/api/v1/oooa13sku9sv2';
+
+    fetch(SHEET_API_URL, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            data: { name: name, email: email, message: message, date: date }
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Pesan berhasil terkirim dan masuk ke web!');
+        document.getElementById('contactForm').reset();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Gagal mengirim pesan.');
+    });
+});
+</script>
+
 
 
     <canvas id="matrixCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.40;"></canvas>
@@ -745,7 +781,7 @@
     
     <div class="welcome-screen" id="welcomeScreen">
         <div class="welcome-ascii" id="welcomeAscii" translate="no">
-            <div id="messageList"></div>
+            
             
  _       _______ _     ____ ___  __  __ _____   _____ ___  
  \ \     / / ____| |   / ___/ _ \|  \/  | ____| |_   _/ _ \ 
