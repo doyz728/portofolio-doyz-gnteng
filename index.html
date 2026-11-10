@@ -728,53 +728,6 @@
     </audio>
 </div>
 
-    <!-- 1. Form Kontak (Pastikan struktur inputnya seperti ini) -->
-<form id="contactForm">
-    <input type="text" id="name" placeholder="Name..." required>
-    <input type="email" id="email" placeholder="Email..." required>
-    <textarea id="message" placeholder="Message..." required></textarea>
-    <button type="submit" class="send-btn">SEND MESSAGE</button>
-</form>
-
-<!-- Tempat nampung pesan masuk (opsional, biar pesan langsung tampil di bawah) -->
-<div id="messageList" style="margin-top: 20px;"></div>
-
-<!-- 2. Script JavaScript (Tempel sebelum tag </body>) -->
-<script>
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Mencegah reload halaman & mematikan demo bawaan!
-
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
-    const date = new Date().toLocaleString();
-
-    // Ganti tulisan di bawah dengan URL API SheetDB Anda yang asli!
-    const SHEET_API_URL = 'https://sheetdb.io/api/v1/qoorgf4hdlr4i';
-
-    fetch(SHEET_API_URL, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            data: { name: name, email: email, message: message,}
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert('Pesan berhasil terkirim dan masuk ke web!');
-        document.getElementById('contactForm').reset();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Gagal mengirim pesan.');
-    });
-});
-</script>
-
-
 
     <canvas id="matrixCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.40;"></canvas>
 
@@ -794,6 +747,35 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
  | |\/| |\ V /   | |_) | | | | |_) || | | |_ | | | | |    | | | | |
  | |  | | | |    |  __/| |_| |  _ < | | |  _|| |_| | |___ | | |_| |
  |_|  |_| |_|    |_|    \___/|_| \_\|_| |_|   \___/|_____|___\___/ 
+
+     <!-- Widget Visitor / Server Stats Ala Terminal -->
+<div class="terminal-box" style="margin: 20px 0; font-family: monospace; color: #00ff00;">
+    <p style="margin-bottom: 4px;">$ ./fetch_stats.sh</p>
+    <p style="opacity: 0.8;">[SYS_INFO] Target Host: doyzleonerd.my.id</p>
+    <p style="opacity: 0.8;">[SYS_INFO] Connection Type: Secure / Cloudflare Proxy</p>
+    <p style="opacity: 0.8;">[ACTIVE_VISITOR] Unique Session: <span id="visitorCount">Loading...</span></p>
+    <p style="opacity: 0.8;">[STATUS] Server Uptime: 99.9% ONLINE</p>
+</div>
+
+<script>
+// Skrip sederhana buat bikin counter pengunjung naik otomatis / persist di localStorage
+document.addEventListener("DOMContentLoaded", function() {
+    let visits = localStorage.getItem('doyz_visits');
+    if (!visits) {
+        visits = 1337; // Angka awal ala hacker biar keren
+    } else {
+        visits = parseInt(visits) + 1;
+    }
+    localStorage.setItem('doyz_visits', visits);
+    
+    const counterEl = document.getElementById('visitorCount');
+    if (counterEl) {
+        counterEl.innerText = visits + " IP Connected";
+    }
+});
+</script>
+     
+        
         </div>
         <button class="start-button" id="startButton" translate="no">START</button>
     </div>
@@ -1364,49 +1346,7 @@ function toggleMusic() {
             [SYS_LOG]: Last Updated // 10 October 2026<br>
             [SYS_NET]: Active Connections // 1,837 Online
         </div>
-        <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const sendBtn = document.getElementById("realSendBtn");
-    if (!sendBtn) return;
-
-        sendBtn.addEventListener("click", function() {
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const message = document.getElementById("message").value;
-
-        if (name === "" || email === "" || message === "") {
-            alert("Isi dulu semua kolomnya!");
-            return;
-        }
-
-
-        const date = new Date().toLocaleString();
-        const SHEET_API_URL = 'https://sheetdb.io/api/v1/qoorgf4hdlr4i'; // Ganti pakai link SheetDB lu
-
-        fetch(SHEET_API_URL, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                data: { name: name, email: email, message: message,}
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert('Pesan berhasil terkirim ke Google Sheets!');
-            if(nameInput) nameInput.value = '';
-            if(emailInput) emailInput.value = '';
-            if(messageInput) messageInput.value = '';
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Gagal mengirim pesan.');
-        });
-    });
-});
-</script>
+        
 
         
 </body>
