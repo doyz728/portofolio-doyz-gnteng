@@ -720,14 +720,14 @@
     </style>
 </head>
 <body class="crt"> 
-<!-- Panel Musik Estetik Ala Terminal -->
-<div id="musicPanel" style="position: fixed; top: 10px; right: 10px; z-index: 99999; background: #000; border: 1px solid #0F0; padding: 5px 10px; font-family: monospace; box-shadow: 0 0 10px rgba(0,255,0,0.3);">
-    <span style="color: #0F0; font-size: 12px; margin-right: 5px;">[AUDIO]:</span>
-    <button id="playBtn" onclick="toggleMusic()" style="background: #000; color: #0F0; border: 1px solid #0F0; padding: 4px 8px; cursor: pointer; font-family: monospace; font-size: 12px; font-weight: bold;">[PLAY]</button>
-    <audio id="bgAudio" preload="auto">
+<!-- Tombol Musik Melayang di Pojok Kanan Bawah -->
+<div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; font-family: monospace;">
+    <button id="playBtn" onclick="toggleMusic()" style="background: #000; color: #0F0; border: 1px solid #0F0; padding: 10px 14px; cursor: pointer; font-family: monospace; font-size: 14px; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,0,0.5); border-radius: 4px;">[♪]</button>
+    <audio id="bgAudio" loop>
         <source src="bg-music.mp3" type="audio/mpeg">
     </audio>
 </div>
+
 
 
     <canvas id="matrixCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.40;"></canvas>
